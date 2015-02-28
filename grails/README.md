@@ -27,3 +27,10 @@ docker run -it --rm --volumes-from grails_data shaneburkhart/dev:grails
 ```
 In this command, we added the `--volumes-from grails_data`.  This references the previously made data container and
 adds those volumes to our new container.
+
+# Exposing ports
+For applications such as web servers, it is useful to be able to load your site in the browser.  By default, docker does not expose any ports.  My app runs on port 8080 so I will show how to expose that port to localhost:
+```
+docker run -it --rm --volumes-from grails_data -p 127.0.0.1:8080:8080 shaneburkhart/dev:grails
+```
+The `-p` flag tells docker to expose the given port.  In this case, we are exposing `127.0.0.1:8080` to the docker container port `8080`.  If the web server ran on 8080 but we wanted to view it in the browser on port 3000, we can change it to `127.0.0.1:3000:8080`. 
