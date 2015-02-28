@@ -24,9 +24,16 @@ docker run -it --rm --volumes-from golang_data shaneburkhart/dev:golang
 In this command, we added the `--volumes-from golang_data`.  This references the previously made data container and
 adds those volumes to our new container.
 
-# Exposing ports
+## Exposing ports
 For applications such as web servers, it is useful to be able to load your site in the browser.  By default, docker does not expose any ports.  My app runs on port 8080 so I will show how to expose that port to localhost:
 ```
 docker run -it --rm --volumes-from golang_data -p 127.0.0.1:8080:8080 shaneburkhart/dev:golang
 ```
 The `-p` flag tells docker to expose the given port.  In this case, we are exposing `127.0.0.1:8080` to the docker container port `8080`.  If the web server ran on 8080 but we wanted to view it in the browser on port 3000, we can change it to `127.0.0.1:3000:8080`. 
+
+## Using Docker in our dev container
+Docker is often needed inside of our dev environment.  To do this, there are two options.  You can do [Docker in Docker](https://github.com/jpetazzo/dind) or the simpler route of mounting the host `docker.sock` file.  I prefer the second one out of pure simplicity:
+```
+docker run -it --rm --volumes-from golang_data -p 127.0.0.1:8080:8080 -v /run/docker.sock:/run/docker.sock shaneburkhart/dev:golang
+```
+All docker needs to connect to the host's docker daemon is the unix socket `docker.sock`.  The beauty of this implementation is that you can start containers on the host from inside your development environment.
