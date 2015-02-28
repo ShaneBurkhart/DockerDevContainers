@@ -37,3 +37,5 @@ Docker is often needed inside of our dev environment.  To do this, there are two
 docker run -it --rm --volumes-from golang_data -p 127.0.0.1:8080:8080 -v /run/docker.sock:/run/docker.sock shaneburkhart/dev:golang
 ```
 All docker needs to connect to the host's docker daemon is the unix socket `docker.sock`.  The beauty of this implementation is that you can start containers on the host from inside your development environment.
+
+## Adding SSH keys
