@@ -10,9 +10,7 @@ RUN \
     rm -rf grails-${GRAILS_VERSION}.zip && \
     ln -s grails-${GRAILS_VERSION} grails
 
-RUN mkdir /app
-
 ENV GRAILS_HOME /usr/lib/jvm/grails
 ENV PATH $GRAILS_HOME/bin:$PATH
 
-WORKDIR /app
+WORKDIR /home
