@@ -1,4 +1,4 @@
-FROM shaneburkhart/dev
+FROM shaneburkhart/dev:base
 
 # Install Java.
 RUN \

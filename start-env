@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+DEV_ENV="${1}"
+DATA_CONTAINER="${DEV_ENV}_data"
+IMAGE_NAME="shaneburkhart/dev:${DEV_ENV}"
+IMAGE_REGEX="shaneburkhart/dev\s+${DEV_ENV}"
+
+# We pull the image first so we can check if the image exists before creating a data container.
+sudo docker pull ${IMAGE_NAME}
+
+if sudo docker images | grep -q -E "${IMAGE_REGEX}"; then
+    echo "Image exists.  Carrying on..."
+else
+    echo "Image ${IMAGE_NAME} doesn't exist."
+    exit 1
+fi
+
+if sudo docker ps -a | grep -q ${DATA_CONTAINER}; then
+	echo "${DATA_CONTAINER} already exists."
+	echo "Using existing container."
+else
+	sudo docker run \
+		-v /home \
+		--name ${DATA_CONTAINER} \
+		dockerfile/ubuntu \
+		true
+fi
+
+sudo docker run -it --rm \
+    --volumes-from ${DATA_CONTAINER} \
+    -v /run/docker.sock:/run/docker.sock \
+    -v /home/shane/.ssh:/root/.ssh \
+    ${IMAGE_NAME}

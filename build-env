@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for i in ${@}; do
+    sudo docker build -t shaneburkhart/dev:${i} ${i}/.
+    sudo docker push shaneburkhart/dev:${i}
+done
