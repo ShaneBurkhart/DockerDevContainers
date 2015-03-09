@@ -1,4 +1,4 @@
-FROM shaneburkhart/dev
+FROM shaneburkhart/dev:base
 
 # Install GoLang
 ENV GOLANG_VERSION 1.4.2
