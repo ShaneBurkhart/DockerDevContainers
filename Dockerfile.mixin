@@ -1,0 +1,10 @@
+RUN apt-get update && apt-get -y install git mercurial meld
+RUN apt-get -y install vim tmux wget
+RUN apt-get -y install docker.io
+
+ENV HOME /home
+WORKDIR /home
+
+VOLUME ["/home"]
+
+CMD ["bash"]

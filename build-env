@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 for i in ${@}; do
-    sudo docker build -t shaneburkhart/dev:${i} ${i}/.
+    mkdir tmp
+    touch tmp/Dockerfile
+    cat ${i}/Dockerfile >> tmp/Dockerfile
+    cat Dockerfile.mixin >> tmp/Dockerfile
+
+    sudo docker build -t shaneburkhart/dev:${i} tmp/.
     sudo docker push shaneburkhart/dev:${i}
+
+    rm -r tmp
 done
