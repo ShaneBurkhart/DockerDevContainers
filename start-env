@@ -28,6 +28,8 @@ fi
 
 sudo docker run -it --rm \
     --volumes-from ${DATA_CONTAINER} \
+    -p 127.0.0.1:8080:8080 \
+    -p 127.0.0.1:3000:3000 \
     -v /run/docker.sock:/run/docker.sock \
     -v /home/shane/.ssh:/root/.ssh \
     ${IMAGE_NAME}
