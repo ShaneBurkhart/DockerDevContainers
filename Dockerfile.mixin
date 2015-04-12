@@ -3,9 +3,14 @@ RUN apt-get update && apt-get -y install sudo
 
 RUN apt-get -y install git
 RUN apt-get -y install vim tmux wget
-RUN apt-get -y install vim docker.io
 
 RUN apt-get -y install npm
+
+# Install docker
+RUN wget -qO- https://get.docker.com/ | sh
+
+# Install heroku toolbelt
+RUN wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
 # Add User
 RUN adduser --disabled-password --gecos "" ${DEV_USER}
