@@ -1,0 +1,4 @@
+language: bash
+
+build:
+    - ./build-env
