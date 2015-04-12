@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
-for i in ${@}; do
+IMAGES=$(for i in $(ls -d */); do echo ${i%%/}; done)
+
+for i in ${IMAGES}; do
     mkdir tmp
     touch tmp/Dockerfile
     cat ${i}/Dockerfile >> tmp/Dockerfile
     cat Dockerfile.mixin >> tmp/Dockerfile
 
-    sudo docker build -t shaneburkhart/dev:${i} tmp/.
-    sudo docker push shaneburkhart/dev:${i}
+    if [ ${i} == "base" ]; then
+	# We will make the base image the root image.
+	sudo docker build -t shaneburkhart/dev tmp/.
+	sudo docker push shaneburkhart/dev
+    else
+	sudo docker build -t shaneburkhart/dev:${i} tmp/.
+	sudo docker push shaneburkhart/dev:${i}
+    fi
 
     rm -r tmp
 done
