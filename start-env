@@ -16,20 +16,21 @@ else
 fi
 
 if sudo docker ps -a | grep -q ${DATA_CONTAINER}; then
-	echo "${DATA_CONTAINER} already exists."
-	echo "Using existing container."
+    echo "${DATA_CONTAINER} already exists."
+    echo "Using existing container."
 else
-	sudo docker run \
-		-v /home \
-		--name ${DATA_CONTAINER} \
-		dockerfile/ubuntu \
-		true
+    sudo docker run \
+	-v /home/${DEV_ENV} \
+	--name ${DATA_CONTAINER} \
+	${IMAGE_NAME} \
+	true
 fi
 
 sudo docker run -it --rm \
     --volumes-from ${DATA_CONTAINER} \
+    -h docker \
     -p 127.0.0.1:8080:8080 \
     -p 127.0.0.1:3000:3000 \
     -v /run/docker.sock:/run/docker.sock \
-    -v /home/shane/.ssh:/root/.ssh \
+    -v /home/shane/.ssh:/home/${DEV_ENV}/.ssh \
     ${IMAGE_NAME}
