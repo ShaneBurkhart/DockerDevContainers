@@ -1,13 +1,20 @@
-RUN apt-get update && apt-get -y install git mercurial meld
+USER root 
+RUN apt-get update && apt-get -y install sudo
+
+RUN apt-get -y install git
 RUN apt-get -y install vim tmux wget
-RUN apt-get -y install docker.io
+RUN apt-get -y install vim docker.io
 
 RUN apt-get -y install npm
 
-ENV HOME /home
-WORKDIR /home
+# Add User
+RUN adduser --disabled-password --gecos "" ${DEV_USER}
+RUN adduser ${DEV_USER} sudo
+RUN echo "${DEV_USER}:${DEV_USER}" | chpasswd
+USER ${DEV_USER}
+WORKDIR /home/${DEV_USER}
 
-VOLUME ["/home"]
+VOLUME ["/home/${DEV_USER}"]
 
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD ["bash"]
